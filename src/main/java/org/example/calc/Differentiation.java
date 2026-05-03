@@ -1,10 +1,9 @@
-package org.example;
+package org.example.calc;
 
-import org.knowm.xchart.XYChart;
-import org.knowm.xchart.XYChartBuilder;
-import org.knowm.xchart.SwingWrapper;
-
-import java.util.Arrays;
+import org.apache.commons.math3.analysis.UnivariateFunction;
+import org.apache.commons.math3.analysis.differentiation.FiniteDifferencesDifferentiator;
+import org.apache.commons.math3.analysis.interpolation.NevilleInterpolator;
+import org.apache.commons.math3.analysis.polynomials.PolynomialFunctionLagrangeForm;
 
 public class Differentiation {
     // интерполяция
@@ -77,35 +76,38 @@ public class Differentiation {
         return d2y;
     }
 
-    public static void main(String[] args) {
-        // Исходные данные (вар 3)
-        double[] t = {1.00, 1.10, 1.20, 1.30, 1.40, 1.50, 1.60, 1.70, 1.80, 1.90, 2.00};
-        double[] s = {3.51, 3.19, 2.86, 2.53, 2.19, 1.85, 1.51, 1.17, 0.84, 0.51, 0.19};
 
-        double h = 0.02;
+    // APACHE COMMONS MATH3 ИНТЕРПОЛЯЦИЯ
+    public static double[][] apacheInterpolation(double[] t, double[] s, double h) {
+        NevilleInterpolator interpolator = new NevilleInterpolator();
+        PolynomialFunctionLagrangeForm polynomial = (PolynomialFunctionLagrangeForm) interpolator.interpolate(t, s);
 
-        // интерполяция
-        double[][] result = newton(t, s, h);
-        double[] tn = result[0];
-        double[] sn = result[1];
+        int n = (int)((t[t.length - 1] - t[0]) / h) + 1;
+        double[] tn = new double[n];
+        double[] sn = new double[n];
 
-        // первая производная
-        double[] vn = dif(sn, h);
+        for (int i = 0; i < n; i++) {
+            tn[i] = t[0] + i * h;
+            sn[i] = polynomial.value(tn[i]);
+        }
 
-        // вторая производная
-        double[] an = dif2(sn, h);
+        return new double[][] {tn, sn};
+    }
 
-        // графики
-        // Путь
-        XYChart chart1 = new XYChartBuilder().width(800).height(200).title("Путь S(t)").xAxisTitle("t, с").yAxisTitle("S, м").build();
-        chart1.addSeries("S(t)", tn, sn);
-
-        XYChart chart2 = new XYChartBuilder().width(800).height(200).title("Скорость v(t)").xAxisTitle("t, с").yAxisTitle("v, м/с").build();
-        chart2.addSeries("v(t)", tn, vn);
-
-        XYChart chart3 = new XYChartBuilder().width(800).height(200).title("Ускорение a(t)").xAxisTitle("t, с").yAxisTitle("a, м/с²").build();
-        chart3.addSeries("a(t)", tn, an);
-
-        new SwingWrapper<>(Arrays.asList(chart1, chart2, chart3)).displayChartMatrix();
+    // APACHE COMMONS MATH3 ДИФФЕРЕНЦИРОВАНИЕ
+    public static double[] apacheDifferntiation(PolynomialFunctionLagrangeForm polynomial,double[] t, double h){
+        UnivariateFunction function = new UnivariateFunction() {
+            @Override
+            public double value(double x) {
+                return polynomial.value(x);
+            }
+        }
+        FiniteDifferencesDifferentiator diff = new FiniteDifferencesDifferentiator(5, h);
+        double[] dy = new double[t.length];
+        UnivariateFunction derivative = diff.differentiate(polynomial);
+        for (int i = 0; i < t.length; i++){
+            dy[i] = derivative.value(t[i]);
+        }
+        return dy;
     }
 }
