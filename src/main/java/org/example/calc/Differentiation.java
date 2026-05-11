@@ -95,13 +95,13 @@ public class Differentiation {
     }
 
     // APACHE COMMONS MATH3 ДИФФЕРЕНЦИРОВАНИЕ
-    public static double[] apacheDifferntiation(PolynomialFunctionLagrangeForm polynomial,double[] t, double h){
+    public static double[] apacheDifferentiation(PolynomialFunctionLagrangeForm polynomial,double[] t, double h){
         UnivariateFunction function = new UnivariateFunction() {
             @Override
             public double value(double x) {
                 return polynomial.value(x);
             }
-        }
+        };
         FiniteDifferencesDifferentiator diff = new FiniteDifferencesDifferentiator(5, h);
         double[] dy = new double[t.length];
         UnivariateFunction derivative = diff.differentiate(polynomial);

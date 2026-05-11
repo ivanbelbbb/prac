@@ -1,8 +1,9 @@
 package org.example;
 
 
-import org.apache.commons.math3.analysis.interpolation.LinearInterpolator;
-import org.apache.commons.math3.analysis.polynomials.PolynomialSplineFunction;
+
+import org.apache.commons.math3.analysis.interpolation.NevilleInterpolator;
+import org.apache.commons.math3.analysis.polynomials.PolynomialFunctionLagrangeForm;
 
 import org.knowm.xchart.SwingWrapper;
 import org.knowm.xchart.XYChart;
@@ -59,25 +60,31 @@ public class App {
         double[] an = dif2(sn, h);
 
 
-        LinearInterpolator interpolator = new LinearInterpolator();
-        PolynomialSplineFunction function = interpolator.interpolate(t, s);
+        NevilleInterpolator interpolator = new NevilleInterpolator();
+        PolynomialFunctionLagrangeForm function = interpolator.interpolate(t, s);
 
-        // Получаем значение в точке x = 1.25
-        double value = function.value(1.25);
-        System.out.println("Значение: " + value);
+        
+        double [][] apacheResult = apacheInterpolation(t,s, h);
+        double[] apacheT = apacheResult[0];
+        double [] apacheS = apacheResult[1];
+        double[] apacheV = apacheDifferentiation(function, apacheT, h);
+        double[] apacheA = apacheDifferentiation(function, apacheV, h);
 
-//        // графики
-//        // Путь
-//        XYChart chart1 = new XYChartBuilder().width(800).height(200).title("Путь S(t)").xAxisTitle("t, с").yAxisTitle("S, м").build();
-//        chart1.addSeries("S(t)", tn, sn);
-//
-//        XYChart chart2 = new XYChartBuilder().width(800).height(200).title("Скорость v(t)").xAxisTitle("t, с").yAxisTitle("v, м/с").build();
-//        chart2.addSeries("v(t)", tn, vn);
-//
-//        XYChart chart3 = new XYChartBuilder().width(800).height(200).title("Ускорение a(t)").xAxisTitle("t, с").yAxisTitle("a, м/с²").build();
-//        chart3.addSeries("a(t)", tn, an);
-//
-//        new SwingWrapper<>(Arrays.asList(chart1, chart2, chart3)).displayChartMatrix();
+
+
+
+       // графики
+       // Путь
+       XYChart chart1 = new XYChartBuilder().width(800).height(200).title("Путь S(t)").xAxisTitle("t, с").yAxisTitle("S, м").build();
+       chart1.addSeries("S(t)", tn, sn);
+
+       XYChart chart2 = new XYChartBuilder().width(800).height(200).title("Скорость v(t)").xAxisTitle("t, с").yAxisTitle("v, м/с").build();
+       chart2.addSeries("v(t)", tn, vn);
+
+       XYChart chart3 = new XYChartBuilder().width(800).height(200).title("Ускорение a(t)").xAxisTitle("t, с").yAxisTitle("a, м/с²").build();
+       chart3.addSeries("a(t)", tn, an);
+
+       new SwingWrapper<>(Arrays.asList(chart1, chart2, chart3)).displayChartMatrix();
     }
 
 
