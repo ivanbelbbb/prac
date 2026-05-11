@@ -1,4 +1,4 @@
-package org.example;
+package org.example.service;
 
 
 
@@ -75,16 +75,22 @@ public class App {
 
        // графики
        // Путь
-       XYChart chart1 = new XYChartBuilder().width(800).height(200).title("Путь S(t)").xAxisTitle("t, с").yAxisTitle("S, м").build();
-       chart1.addSeries("S(t)", tn, sn);
+            XYChart chart1 = new XYChartBuilder().width(800).height(200)
+                .title("Путь S(t)").xAxisTitle("t, с").yAxisTitle("S, м").build();
+        chart1.addSeries("Ньютон", tn, sn);
+        chart1.addSeries("Apache", apacheT, apacheS);
 
-       XYChart chart2 = new XYChartBuilder().width(800).height(200).title("Скорость v(t)").xAxisTitle("t, с").yAxisTitle("v, м/с").build();
-       chart2.addSeries("v(t)", tn, vn);
+        XYChart chart2 = new XYChartBuilder().width(800).height(200)
+                .title("Скорость v(t)").xAxisTitle("t, с").yAxisTitle("v, м/с").build();
+        chart2.addSeries("Ньютон", tn, vn);
+        chart2.addSeries("Apache", apacheT, apacheV);
 
-       XYChart chart3 = new XYChartBuilder().width(800).height(200).title("Ускорение a(t)").xAxisTitle("t, с").yAxisTitle("a, м/с²").build();
-       chart3.addSeries("a(t)", tn, an);
+        XYChart chart3 = new XYChartBuilder().width(800).height(200)
+                .title("Ускорение a(t)").xAxisTitle("t, с").yAxisTitle("a, м/с²").build();
+        chart3.addSeries("Ньютон", tn, an);
+        chart3.addSeries("Apache", apacheT, apacheA);
 
-       new SwingWrapper<>(Arrays.asList(chart1, chart2, chart3)).displayChartMatrix();
+         new SwingWrapper<>(Arrays.asList(chart1, chart2, chart3)).displayChartMatrix();
     }
 
 
