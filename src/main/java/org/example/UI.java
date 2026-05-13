@@ -95,32 +95,32 @@ public class UI extends Application {
 
         Button calcButton = new Button("Вычислить");
         calcButton.setOnAction(e -> {
-    try {
-        String f = expField.getText();
-        if (f.isEmpty()) { resultLabel.setText("Ошибка: введите функцию"); return; }
+        try {
+            String f = expField.getText();
+            if (f.isEmpty()) { resultLabel.setText("Ошибка: введите функцию"); return; }
 
-        double x1 = Double.parseDouble(x1Field.getText());
-        double x2 = Double.parseDouble(x2Field.getText());
-        double dx = Double.parseDouble(dxField.getText());
+            double x1 = Double.parseDouble(x1Field.getText());
+            double x2 = Double.parseDouble(x2Field.getText());
+            double dx = Double.parseDouble(dxField.getText());
 
-        if (x2 <= x1) { resultLabel.setText("Ошибка: x2 должен быть больше x1"); return; }
-        if (dx <= 0)  { resultLabel.setText("Ошибка: шаг должен быть положительным"); return; }
+            if (x2 <= x1) { resultLabel.setText("Ошибка: x2 должен быть больше x1"); return; }
+            if (dx <= 0)  { resultLabel.setText("Ошибка: шаг должен быть положительным"); return; }
 
-        IntegrationService.Result res = IntegrationService.compute(f, x1, x2, dx);
-        resultLabel.setText(
-            "Мой Симпсон (dx):   " + res.dxValue() + "\n" +
-            "Мой Симпсон (dx/2): " + res.dx2Value() + "\n" +
-            "Погрешность Рунге:  " + res.runge() + "\n" +
-            "Время моего:        " + res.simpsonTime() + " с\n" +
-            "Apache результат:   " + res.apacheValue() + "\n" +
-            "Время Apache:       " + res.apacheTime() + " с"
-        );
-    } catch (NumberFormatException ex) {
-        resultLabel.setText("Ошибка: введите числа в поля x1, x2, dx");
-    } catch (Exception ex) {
-        resultLabel.setText("Ошибка: " + ex.getMessage());
-    }
-});
+            IntegrationService.Result res = IntegrationService.compute(f, x1, x2, dx);
+            resultLabel.setText(
+                "Мой Симпсон (dx):   " + res.dxValue() + "\n" +
+                "Мой Симпсон (dx/2): " + res.dx2Value() + "\n" +
+                "Погрешность Рунге:  " + res.runge() + "\n" +
+                "Время моего:        " + res.simpsonTime() + " с\n" +
+                "Apache результат:   " + res.apacheValue() + "\n" +
+                "Время Apache:       " + res.apacheTime() + " с"
+            );
+        } catch (NumberFormatException ex) {
+            resultLabel.setText("Ошибка: введите числа в поля x1, x2, dx");
+        } catch (Exception ex) {
+            resultLabel.setText("Ошибка: " + ex.getMessage());
+        }
+    });
 
         Button backButton = new Button("назад");
         backButton.setOnAction(e -> showMenu());
