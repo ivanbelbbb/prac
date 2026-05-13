@@ -19,7 +19,8 @@ public class Integration {
 
         double s = f1 + f2; // сумма
         // Интегрирование методом Симпсона
-        for (double x = x1 + dx; x < x2; x += dx) {
+        for (int i = 1; i < n; i++) {
+            double x = x1 + i * dx;
             if (((x - x1) / dx) % 2 == 0) {
                 s += 4 * expr.setVariable("x", x).evaluate();  //  для нечетных точек
             } else {

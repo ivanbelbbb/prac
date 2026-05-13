@@ -28,7 +28,7 @@ public class IntegrationService {
 
         long startApache = System.nanoTime();
         UnivariateIntegrator apacheSimpson = new SimpsonIntegrator();
-        double apacheValue = apacheSimpson.integrate(10000, x -> expr.setVariable("x", x).evaluate(), x1, x2);
+        double apacheValue = apacheSimpson.integrate(1_000_000, x -> expr.setVariable("x", x).evaluate(), x1, x2);
         long endApache = System.nanoTime();
         double apacheTime = (endApache - startApache) / 1_000_000_000.0; // в секундах
 

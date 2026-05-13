@@ -17,12 +17,7 @@ public class DifferentiationService {
     ){}
 
     public static Result compute(double[] t, double[] s, double h){
-        // // Исходные данные (вар 3)
-        // double[] t = {1.00, 1.10, 1.20, 1.30, 1.40, 1.50, 1.60, 1.70, 1.80, 1.90, 2.00};
-        // double[] s = {3.51, 3.19, 2.86, 2.53, 2.19, 1.85, 1.51, 1.17, 0.84, 0.51, 0.19};
-
-        // double h = 0.02;
-
+ 
         // интерполяция
 
         long startNewton = System.nanoTime();
