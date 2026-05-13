@@ -1,6 +1,5 @@
 package org.example.calc;
 
-import net.objecthunter.exp4j.ExpressionBuilder;
 import net.objecthunter.exp4j.Expression;
 
 import static java.lang.Math.round;
@@ -8,11 +7,8 @@ import static java.lang.Math.round;
 public class Integration {
 
     // Метод Симпсона для численного интегрирования
-    public static double simpson(String func, double x1, double x2, double dx) {
-        // объект, который преобразует строку в функцию
-        Expression expr = new ExpressionBuilder(func)
-                .variable("x")
-                .build();
+    public static double simpson(Expression expr, double x1, double x2, double dx) {
+
 
         double f1 = expr.setVariable("x", x1).evaluate();
         double f2 = expr.setVariable("x", x2).evaluate();
